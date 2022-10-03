@@ -6,7 +6,7 @@
     <div class="jumbotron">
       <h2 style="color:blue;">Nuevo producto</h2>
       <br />
-      <div id="form-product">
+      <form onsubmit="return addProduct()">
         <div class="form-group">
           <label for="title"><b>Nombre</b></label>
           <input
@@ -39,8 +39,8 @@
             required
           />
         </div>
-        <button type="button" class="btn btn-success mt-3 mb-5" onclick="addProduct()">Enviar</button>
-      </div>
+        <button class="btn btn-success mt-3 mb-5">Enviar</button>
+      </form>
     </div>
   </div>
 </main>
@@ -62,7 +62,7 @@
   <div class="container-fluid mt-3" id="chat">
     <h3>Centro de mensajes</h3>
     <div id="messages"></div>
-    <form class="form-inline" onsubmit="addMessage()" autocomplete="on">
+    <form class="form-inline" onsubmit="return addMessage()" autocomplete="on">
       <label for="email">Email</label>
       <input
         type="email"
@@ -126,9 +126,27 @@
 <footer>
   <a href="/products">Ver lista de productos</a>
 </footer>
-<script type="text/javascript" src="./function.js"></script>
-<script src="/socket.io/socket.io.js"></script>
 
-<script
-  src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"
-></script>
+<body class="p-4">
+
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"
+  ></script>
+  <script>
+    function addProduct() {
+ alert("llegue")
+  let producto = {
+    title: document.getElementById("title").value,
+    price: document.getElementById("price").value,
+    thumbnail: document.getElementById("thumbnail").value,
+  };
+  
+  socket.emit("new-product", producto);
+  document.getElementById("title").value = "";
+  document.getElementById("price").value = "";
+  document.getElementById("thumbnail").value = "";
+  return false;
+}</script>
+</body>

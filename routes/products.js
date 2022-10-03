@@ -1,6 +1,6 @@
 //=========== MODULOS ===========//
 import express from "express";
-import  ApiProductosMock  from "../api/productosApi.js";
+import ApiProductosMock from "../api/productosApi.js";
 import { Contenedor } from "../managers/contenedor.js";
 const apiProducts = new ApiProductosMock("./files/productos.txt");
 //=========== ROUTER ===========//
@@ -19,7 +19,7 @@ let products = new Contenedor("./files/productos.txt");
 
 //=========== RUTAS ===========//
 
-router. get("/", async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   res.render("formNewProduct");
 });
 
@@ -75,9 +75,8 @@ router.post("/products", async (req, res, next) => {
         "El nombre solo puede contener letras, números y espacios"
       );
     }
-    await products.save(req.body).then((resolve) => {
-      res.redirect("/");
-    });
+    await products.save(req.body);
+    res.redirect("/");
   } catch (err) {
     next(err);
   }

@@ -7,6 +7,7 @@ const text = new schema.Entity("text", {
   author: author,
 });
 
+
 const denormalizar = (obj) => {
   return denormalize(obj.result, text, obj.entities);
 };
@@ -49,7 +50,7 @@ function renderMessages(data) {
   document.getElementById("messages").innerHTML = html;
 }
 
-export function addProduct() {
+function addProduct() {
  alert("llegue")
   let producto = {
     title: document.getElementById("title").value,
@@ -64,7 +65,7 @@ export function addProduct() {
   return false;
 }
 
-export function addMessage() {
+function addMessage() {
   console.log("toy");
   let message = {
     author: {

@@ -9,6 +9,7 @@
     "express-handlebars": "^6.0.6",
     "express-hbs": "^2.4.0",
     "faker": "^6.6.6",
+    "jquery": "^3.6.1",
     "nodemon": "^2.0.20",
     "normalizr": "^3.6.2",
     "react-scripts": "^3.4.1",

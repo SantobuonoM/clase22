@@ -18,7 +18,7 @@ import { normalizar, print, denormalizar } from "./utils/normalizar.js";
 import { Chat } from "./managers/chat.js";
 //=========== ROUTERS ===========//
 const app = express();
-const httpServer = createServer();
+const httpServer = new createServer();
 //=========== MIDDLEWARES ===========//
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -78,10 +78,12 @@ io.on("connection", async (socket) => {
   
   const normalizedMessages = normalizar(messages);
   print(normalizedMessages);
+  
   const denormalizedMessages = denormalizar(normalizedMessages);
   print(denormalizedMessages);
 
   socket.emit("products", arrayProduct);
+  
   socket.emit("messages", normalizedMessages);
 
   socket.on("new-product", async (data) => {
