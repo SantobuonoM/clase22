@@ -1,0 +1,12 @@
+[
+  {
+    "title": "asd",
+    "price": "123",
+    "thumbnail": "https://img.freepik.com/vector-gratis/ilustracion-vector-dibujos-animados-lindo-corgi-beber-leche-te-boba-bebida-animal-concepto-aislado-vector-estilo-dibujos-animados-plana_138676-1943.jpg?w=2000"
+  },
+  {
+    "title": "asd",
+    "price": "123",
+    "thumbnail": "https://img.freepik.com/vector-gratis/ilustracion-vector-dibujos-animados-lindo-corgi-beber-leche-te-boba-bebida-animal-concepto-aislado-vector-estilo-dibujos-animados-plana_138676-1943.jpg?w=2000"
+  }
+]
