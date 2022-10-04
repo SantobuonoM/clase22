@@ -6,7 +6,7 @@
     <div class="jumbotron">
       <h2 style="color:blue;">Nuevo producto</h2>
       <br />
-      <form onsubmit="return addProduct()">
+      <form action="http://localhost:8080/products" method="post">
         <div class="form-group">
           <label for="title"><b>Nombre</b></label>
           <input
@@ -40,7 +40,13 @@
           />
         </div>
         <button class="btn btn-success mt-3 mb-5">Enviar</button>
+        <footer>
+          <a href="/products">Ver lista de productos</a>
+        </footer><footer>
+          <a href="/products-test">Ver lista de productos aleatorios</a>
+        </footer>
       </form>
+
     </div>
   </div>
 </main>
@@ -62,7 +68,7 @@
   <div class="container-fluid mt-3" id="chat">
     <h3>Centro de mensajes</h3>
     <div id="messages"></div>
-    <form class="form-inline" onsubmit="return addMessage()" autocomplete="on">
+    <form onsubmit="return addMessage()" autocomplete="on">
       <label for="email">Email</label>
       <input
         type="email"
@@ -123,9 +129,6 @@
     </form>
   </div>
 </aside>
-<footer>
-  <a href="/products">Ver lista de productos</a>
-</footer>
 
 <body class="p-4">
 
@@ -134,19 +137,7 @@
   <script
     src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"
   ></script>
-  <script>
-    function addProduct() {
- alert("llegue")
-  let producto = {
-    title: document.getElementById("title").value,
-    price: document.getElementById("price").value,
-    thumbnail: document.getElementById("thumbnail").value,
-  };
-  
-  socket.emit("new-product", producto);
-  document.getElementById("title").value = "";
-  document.getElementById("price").value = "";
-  document.getElementById("thumbnail").value = "";
-  return false;
-}</script>
+  <script  type="text/javascript" src="../public/function.js">
+
+  </script>
 </body>

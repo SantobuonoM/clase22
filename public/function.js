@@ -30,7 +30,7 @@ function render(data) {
       </tr>`;
     })
     .join(" ");
-  document.getElementById("tbproducts").innerHTML = html;
+  document.getElementById("tbproducts").innerHTML;
 }
 
 function renderMessages(data) {

@@ -11,7 +11,7 @@ export default class ApiProductosMock extends Contenedor {
     const nuevos = [];
     for (let i = 0; i < cant; i++) {
       const nuevoProducto = generarProductos(generarId());
-      const guardado = this.save(nuevoProducto);
+      const guardado = this.savee(nuevoProducto);
       nuevos.push(guardado);
     }
     return nuevos;

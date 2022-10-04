@@ -18,7 +18,10 @@ export class Contenedor {
       return elem;
     }
   }
-
+  savee(obj) {
+    this.items.push(obj);
+    return obj;
+  }
   async save(obj) {
     try {
       const array = await this.getAll();

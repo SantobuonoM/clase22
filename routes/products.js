@@ -2,7 +2,7 @@
 import express from "express";
 import ApiProductosMock from "../api/productosApi.js";
 import { Contenedor } from "../managers/contenedor.js";
-const apiProducts = new ApiProductosMock("./files/productos.txt");
+const ApiProductosMoc = new ApiProductosMock("./files/productos.txt");
 //=========== ROUTER ===========//
 const router = express.Router();
 
@@ -37,7 +37,7 @@ router.get("/products", async (req, res, next) => {
 
 router.get("/products-test", async (req, res, next) => {
   try {
-    const arrayProduct = apiProducts.products();
+    const arrayProduct = ApiProductosMoc.products();
     if (arrayProduct.length === 0) {
       throw new Error("No hay productos");
     }
@@ -76,7 +76,7 @@ router.post("/products", async (req, res, next) => {
       );
     }
     await products.save(req.body);
-    res.redirect("/");
+    res.redirect("/products");
   } catch (err) {
     next(err);
   }
