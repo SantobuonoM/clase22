@@ -1,5 +1,4 @@
 import { normalize, schema, denormalize } from "normalizr";
-import util from "util";
 const socket = io();
 
 const author = new schema.Entity("author");
@@ -84,7 +83,7 @@ function addMessage() {
   document.getElementById("message").value = "";
   document.getElementById("message").focus();
 
-  return false;
+  return true;
 }
 
 const formatDate = () => {

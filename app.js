@@ -10,7 +10,7 @@ const productMock = new ApiProductosMock("./files/productos.txt");
 import apiProducts from "./routes/products.js";
 import { Contenedor } from "./managers/contenedor.js";
 import fs from "fs";
-import handlebars from "express-handlebars";
+import { engine } from "express-handlebars";
 import path from "path";
 import { Server } from "socket.io";
 import { createServer } from "http";
@@ -23,7 +23,7 @@ const httpServer = new createServer();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use("/", apiProducts);
-app.use("/", express.static(path.resolve(__dirname , "/public")));
+app.use("/", express.static(path.resolve(__dirname, "public")));
 app.use((req, res, next) => {
   console.log(`Product Middleware, Time: ${Date.now()}`);
   next();
@@ -38,16 +38,16 @@ app.use(function (err, req, res, next) {
 app.set("views", path.join(__dirname, "views"));
 app.engine(
   "handlebars",
-  handlebars.engine({
+  engine({
     defaultLayout: "main",
     layoutsDir: path.join(app.get("views"), "layouts"),
   })
 );
 app.set("view engine", "handlebars");
+app.set("views", "./views");
 
 //=========== VARIABLES ===========//
 let chat = new Contenedor("./files/chat.txt");
-
 
 let products = new Contenedor("./files/productos.txt");
 
@@ -75,15 +75,15 @@ io.on("connection", async (socket) => {
 
   const arrayProduct = await products.getAll();
   const messages = await chat.getAll();
-  
+
   const normalizedMessages = normalizar(messages);
   print(normalizedMessages);
-  
+
   const denormalizedMessages = denormalizar(normalizedMessages);
   print(denormalizedMessages);
 
   socket.emit("products", arrayProduct);
-  
+
   socket.emit("messages", normalizedMessages);
 
   socket.on("new-product", async (data) => {
