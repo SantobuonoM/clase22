@@ -1,8 +1,12 @@
-import dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
-export default {
-  mongodb: {
+module.exports= {
+  fileSystem:{
+    path :"./files/productos.txt"
+  },
+  mongodb:
+   {
     cnxStr:
       "mongodb+srv://yopopoy19:42501719@cluster0.b03da.mongodb.net/DB?retryWrites=true&w=majority",
     options: {

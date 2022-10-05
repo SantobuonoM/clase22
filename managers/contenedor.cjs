@@ -1,5 +1,5 @@
-import fs from "fs";
-export class Contenedor {
+const fs = require("fs");
+class Contenedor {
   constructor(path) {
     this.filePath = path;
     this.items = this.readData();
@@ -72,3 +72,4 @@ export class Contenedor {
     );
   }
 }
+module.exports = Contenedor;

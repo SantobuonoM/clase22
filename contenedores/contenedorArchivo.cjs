@@ -1,4 +1,4 @@
-import { promises as fs } from "fs";
+const fs = require("fs");
 
 class ContenedorArchivo {
   constructor(ruta) {
@@ -6,12 +6,12 @@ class ContenedorArchivo {
   }
 
   async get(req, res) {
-    const objs = await this.listarAll();
+    const objs = await this.getAll();
     const buscado = objs.find((o) => o.id == req.params.id);
     return res.send(buscado);
   }
 
-  async listarAll() {
+  async getAll() {
     try {
       const objs = await fs.readFile(this.ruta, "utf-8");
       return JSON.parse(objs);
@@ -21,7 +21,7 @@ class ContenedorArchivo {
   }
 
   async add(req, res) {
-    const objs = await this.listarAll();
+    const objs = await this.getAll();
 
     let newId;
     if (objs.length == 0) {
@@ -42,12 +42,12 @@ class ContenedorArchivo {
   }
 
   async update(req, res) {
-    const objs = await this.listarAll();
+    const objs = await this.getAll();
     const obj = objs.find((o) => o.id == req.params.id);
     if (obj == -1) {
       throw new Error(`Error al actualizar: no se encontró el id ${index}`);
     } else {
-      objs[obj.id-1] = {...obj, ...req.body}
+      objs[obj.id - 1] = { ...obj, ...req.body };
       try {
         await fs.writeFile(this.ruta, JSON.stringify(objs, null, 2));
         return res.send(objs);
@@ -57,8 +57,8 @@ class ContenedorArchivo {
     }
   }
 
-  async deletes(req , res) {
-    const objs = await this.listarAll();
+  async deletes(req, res) {
+    const objs = await this.getAll();
     const index = objs.findIndex((o) => o.id == req.params.id);
     if (index == -1) {
       throw new Error(`Error al borrar: no se encontró el id ${id}`);
@@ -82,4 +82,4 @@ class ContenedorArchivo {
   }
 }
 
-export default ContenedorArchivo;
+module.exports = ContenedorArchivo;

@@ -1,15 +1,15 @@
-import mongoose from "mongoose";
-import config from "../config.js";
+const mongoose = require("mongoose");
+const config = require("../config.cjs");
 /** inicializar conexion a db */
-
-await mongoose.connect(config.mongodb.cnxStr, config.mongodb.options);
-
+mongoose.Promise = global.Promise;
+mongoose.connect(config.mongodb.cnxStr, config.mongodb.options);
+console.log("conectado a la db")
 class ContenedorMongoDb {
   /** crea la tabla/collection a persistir */
 
-  constructor(collection, schema) {
+  constructor(collection, modelSchema) {
     this.collection = collection;
-    this.model = mongoose.model(collection, schema);
+    this.model = mongoose.model(collection, modelSchema);
   }
 
   /** funcion getById */
@@ -26,10 +26,11 @@ class ContenedorMongoDb {
   }
 
   /** funcion getAll */
-  async listarAll() {
+  async getAll() {
     try {
       const prods = await this.model.find();
       console.log("Producto encontrado", prods);
+      return prods;
     } catch (error) {
       throw new Error(
         `Error al buscar los ${this.collection}, ${error.message}`
@@ -38,11 +39,11 @@ class ContenedorMongoDb {
   }
   /** funcion post */
 
-  async add(req, res) {
+  async save(req, res) {
     try {
       const prod = await this.model.create(req.body);
       console.log("Producto guardado", prod);
-      return res.send(prod);
+      return prod;
     } catch (error) {
       throw new Error(
         `Error al guardar el ${this.collection}, ${error.message}`
@@ -126,4 +127,4 @@ class ContenedorMongoDb {
   }
 }
 
-export default ContenedorMongoDb;
+module.exports = ContenedorMongoDb;

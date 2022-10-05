@@ -1,9 +1,9 @@
 //=========== MODULOS ===========//
 import express from "express";
 import ApiProductosMock from "../api/productosApi.js";
-import { Contenedor } from "../managers/contenedor.js";
+import Contenedor from "../managers/contenedor.cjs";
 const ApiProductosMoc = new ApiProductosMock("./files/productos.txt");
-import mensajesDao from "../daos/indexDao.js";
+import { mensajesDao, productosDao } from "../daos/indexDao.cjs";
 //=========== ROUTER ===========//
 const router = express.Router();
 
@@ -17,7 +17,7 @@ router.use((req, res, next) => {
 
 //=========== CONTENEDOR ===========//
 let products = new Contenedor("./files/productos.txt");
-
+//new mensajesDao("./files/productos.txt");
 //=========== RUTAS ===========//
 
 router.get("/", async (req, res, next) => {
@@ -26,7 +26,7 @@ router.get("/", async (req, res, next) => {
 
 router.get("/products", async (req, res, next) => {
   try {
-    const arrayProduct = await mensajesDao.getAll();
+    const arrayProduct = await productosDao.getAll();
     if (arrayProduct.length === 0) {
       throw new Error("No hay products");
     }
@@ -42,7 +42,7 @@ router.get("/products-test", async (req, res, next) => {
     if (arrayProduct.length === 0) {
       throw new Error("No hay productos");
     }
-    res.render("datos", { arrayProduct });
+    res.render("partials/datos", { arrayProduct });
   } catch (err) {
     next(err);
   }
@@ -50,7 +50,7 @@ router.get("/products-test", async (req, res, next) => {
 
 router.get("/products/:id", async (req, res, next) => {
   try {
-    const producto = await products
+    const producto = await mensajesDao
       .getById(Number(req.params.id))
       .then((resolve) => resolve);
     if (!producto) {
@@ -76,7 +76,8 @@ router.post("/products", async (req, res, next) => {
         "El nombre solo puede contener letras, números y espacios"
       );
     }
-    await products.save(req.body);
+    console.log(req.body);
+    await productosDao.save(req);
     res.redirect("/products");
   } catch (err) {
     next(err);
@@ -85,13 +86,13 @@ router.post("/products", async (req, res, next) => {
 
 router.put("/products/:id", async (req, res, next) => {
   try {
-    const producto = await products
+    const producto = await mensajesDao
       .getById(Number(req.params.id))
       .then((res) => res);
     if (!producto) {
       throw new Error("Producto no encontrado");
     }
-    await products
+    await mensajesDao
       .update(
         Number(req.params.id),
         req.body.title,
@@ -108,7 +109,7 @@ router.put("/products/:id", async (req, res, next) => {
 
 router.delete("/products/:id", async (req, res, next) => {
   try {
-    const producto = await products
+    const producto = await mensajesDao
       .getById(Number(req.params.id))
       .then((resolve) => resolve);
     if (!producto) {

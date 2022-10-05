@@ -1,4 +1,4 @@
-import ContenedorFirebase from "../contenedores/contenedorFirebase.js";
+import ContenedorFirebase from "../contenedores/contenedorFirebase.cjs";
 
 class DaoFirebase extends ContenedorFirebase {
   constructor() {

@@ -14,9 +14,10 @@ import { Server as IOServer } from "socket.io";
 import ApiProductosMock from "./api/productosApi.js";
 const productMock = new ApiProductosMock("./files/productos.txt");
 import apiProducts from "./routes/products.js";
-import { Contenedor } from "./managers/contenedor.js";
+import Contenedor  from "./managers/contenedor.cjs";
 import { normalizar, print, denormalizar } from "./utils/normalizar.js";
 import { Chat } from "./managers/chat.js";
+import mensajesDao from "./daos/indexDao.cjs";
 
 //=========== ROUTERS ===========//
 const app = express();
@@ -120,10 +121,5 @@ io.on("connection", async (socket) => {
 
 //=========== MONGO ===========//
 
-const mensajesDao = require("./daos/indexDao");
 
-//CONEXIÓN A MONGO:
-const dbConnect = require("./utils/connectMongoDB.js");
-if (process.env.MODO_PERSISTENCIA === "mongodb") {
-  dbConnect().then(() => console.log("Conectado a la db."));
-}
+

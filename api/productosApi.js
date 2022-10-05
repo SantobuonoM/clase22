@@ -1,4 +1,4 @@
-import { Contenedor } from "../managers/contenedor.js";
+import Contenedor  from "../managers/contenedor.cjs";
 import generarProductos from "../utils/generadorProductos.js";
 import { generarId } from "../utils/generadorId.js";
 
