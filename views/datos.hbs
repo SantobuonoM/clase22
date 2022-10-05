@@ -5,12 +5,20 @@
   {{#if arrayProduct}}
     <div class="table-responsive">
       <table class="table table-dark">
-        <tr style="color: yellow;"> <th>Nombre</th> <th>Precio</th> <th>Thumbnail</th> </tr>
+        <tr style="color: yellow;">
+          <th>Nombre</th>
+          <th>Precio</th>
+          <th>Thumbnail</th>
+        </tr>
         {{#each arrayProduct}}
           <tr>
             <td>{{this.title}}</td>
             <td>{{this.price}}</td>
-            <td><img src="{{this.thumbnail}}" alt="Imagen del producto" style="width: 4rem;"></td>
+            <td><img
+                src="{{this.thumbnail}}"
+                alt="Imagen del producto"
+                style="width: 4rem;"
+              /></td>
           </tr>
         {{/each}}
       </table>
@@ -19,7 +27,9 @@
   {{#unless arrayProduct}}
     <h3 class="alert alert-danger">{{err.message}}</h3>
   {{/unless}}
-  </main>
+</main>
 <footer>
   <a href="/"><button class="btn btn-success mt-3 mb-5">Ir a añadir producto</button></a>
 </footer>
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="/js/function.js"></script>

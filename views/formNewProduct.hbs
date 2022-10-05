@@ -1,12 +1,7 @@
 <html>
 
   <header>
-    <script src="/socket.io/socket.io.js"></script>
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"
-    ></script>
-    <script type="text/javascript" src="../js/function.js"></script>
     <h1 style="color:blue;">Productos</h1>
   </header>
   <body>
@@ -135,10 +130,18 @@
             placeholder="Cuéntanos algo..."
             required
           />
-          <input class="btn btn-primary my-2" type="submit" value="Enviar!" />
+          <button
+            type="button"
+            class="btn btn-primary"
+            onclick="addMessage()"
+          >Enviar</button>
+
         </form>
       </div>
     </aside>
 
   </body>
+  <script
+    src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"
+  ></script>
 </html>

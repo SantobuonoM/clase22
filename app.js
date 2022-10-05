@@ -5,25 +5,29 @@ import { dirname } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 import express from "express";
+import fs from "fs";
+import exphbs from "express-handlebars";
+import path from "path";
+import { Server as HttpServer } from "http";
+import { Server as IOServer } from "socket.io";
+
 import ApiProductosMock from "./api/productosApi.js";
 const productMock = new ApiProductosMock("./files/productos.txt");
 import apiProducts from "./routes/products.js";
 import { Contenedor } from "./managers/contenedor.js";
-import fs from "fs";
-import { engine } from "express-handlebars";
-import path from "path";
-import { Server } from "socket.io";
-import { createServer } from "http";
 import { normalizar, print, denormalizar } from "./utils/normalizar.js";
 import { Chat } from "./managers/chat.js";
+
 //=========== ROUTERS ===========//
 const app = express();
-const httpServer = new createServer();
+const httpServer = new HttpServer(app);
+const io = new IOServer(httpServer);
+
 //=========== MIDDLEWARES ===========//
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use("/", express.static(path.resolve(__dirname, "/public")));
 app.use("/", apiProducts);
-app.use("/", express.static(path.resolve(__dirname, "public")));
 app.use((req, res, next) => {
   console.log(`Product Middleware, Time: ${Date.now()}`);
   next();
@@ -36,15 +40,25 @@ app.use(function (err, req, res, next) {
 
 //=========== MOTOR DE PLANTILLAS ===========//
 app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "hbs");
 app.engine(
-  "handlebars",
-  engine({
-    defaultLayout: "main",
-    layoutsDir: path.join(app.get("views"), "layouts"),
+  "hbs",
+  exphbs.engine({
+    defaultLayout: path.resolve(__dirname, "./views/layouts/index.hbs"),
+    layoutsDir: path.resolve(__dirname, "layouts"),
+    extname: "hbs",
   })
 );
-app.set("view engine", "handlebars");
-app.set("views", "./views");
+
+// app.engine(
+//   "hbs",
+//   engine({
+//     defaultLayout: "main",
+//     layoutsDir: path.join(app.get("views"), "layouts"),
+//   })
+// );
+// app.set("view engine", "hbs");
+// app.set("views", "./views");
 
 //=========== VARIABLES ===========//
 let chat = new Contenedor("./files/chat.txt");
@@ -66,9 +80,10 @@ try {
 //=========== SERVER ===========//
 const PORT = process.env.PORT || 8080;
 const server = app.listen(PORT, () => console.log(`Listening on ${PORT}`));
-
+server.on("error", (error) => {
+  console.error(`Error en el servidor ${error}`);
+});
 //=========== SOCKET ===========//
-const io = new Server(server);
 
 io.on("connection", async (socket) => {
   console.log("User connected");

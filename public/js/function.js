@@ -6,7 +6,6 @@ const text = new schema.Entity("text", {
   author: author,
 });
 
-
 const denormalizar = (obj) => {
   return denormalize(obj.result, text, obj.entities);
 };
@@ -36,21 +35,23 @@ function renderMessages(data) {
   const denormalizedMessages = denormalizar(data);
   let html = denormalizedMessages.messages
     .map((elem, index) => {
-      return `<div>
+      return `<span>
         <span style="color: blue; font-weight: bold;">${elem.author.nombre}</span>
         <span style="color: blue; font-weight: bold;">${elem.author.apellido}</span>
         <span style="color: blue; font-weight: bold;">(${elem.author.id}),</span>
         <span style="color: blue; font-weight: bold;">(${elem.author.alias})</span>
         <span style="color: blue; font-weight: bold;"><img src="${elem.author.avatar}" alt="Avatar del usuario"></span>
         <span style="color: brown;">[${elem.date}]:</span>
-        <span style="color: green; font-style: italic;">${elem.text}</span></div>`;
+        <span style="color: green; font-style: italic;">${elem.text}</span>
+        <span>
+        `;
     })
-    .join(" ");
-  document.getElementById("messages").innerHTML = html;
+    .join("<br>");
+  document.querySelector("messages").innerHTML = html;
 }
 
 function addProduct() {
- alert("llegue")
+  alert("llegue");
   let producto = {
     title: document.getElementById("title").value,
     price: document.getElementById("price").value,

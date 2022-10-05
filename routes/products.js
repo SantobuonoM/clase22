@@ -20,7 +20,7 @@ let products = new Contenedor("./files/productos.txt");
 //=========== RUTAS ===========//
 
 router.get("/", async (req, res, next) => {
-  res.render("formNewProduct");
+  res.render("main");
 });
 
 router.get("/products", async (req, res, next) => {
