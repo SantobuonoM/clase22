@@ -26,7 +26,7 @@ const io = new IOServer(httpServer);
 //=========== MIDDLEWARES ===========//
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/", express.static(path.resolve(__dirname, "/public")));
+app.use("/", express.static(path.resolve(__dirname, "public")));
 app.use("/", apiProducts);
 app.use((req, res, next) => {
   console.log(`Product Middleware, Time: ${Date.now()}`);
@@ -40,15 +40,16 @@ app.use(function (err, req, res, next) {
 
 //=========== MOTOR DE PLANTILLAS ===========//
 app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "hbs");
 app.engine(
   "hbs",
   exphbs.engine({
-    defaultLayout: path.resolve(__dirname, "./views/layouts/index.hbs"),
-    layoutsDir: path.resolve(__dirname, "layouts"),
-    extname: "hbs",
+    defaultLayout: "index",
+    layoutsDir: path.resolve(__dirname, "./views/layouts"),
+    partialsDir: path.resolve(__dirname, "./views/partials"),
+    extname: ".hbs",
   })
 );
+app.set("view engine", ".hbs");
 
 // app.engine(
 //   "hbs",
@@ -102,15 +103,27 @@ io.on("connection", async (socket) => {
   socket.emit("messages", normalizedMessages);
 
   socket.on("new-product", async (data) => {
+    console.log("Escucho backend new-product");
     await products.save(data);
     const arrayProduct = await products.getAll();
     io.sockets.emit("products", arrayProduct);
   });
 
   socket.on("new-message", async (data) => {
+    console.log("Escucho backend new-message");
     await chat.save(data);
     const messages = await chat.getAll();
     const normalizedMessages = normalizar(messages);
     io.sockets.emit("messages", normalizedMessages);
   });
 });
+
+//=========== MONGO ===========//
+
+const mensajesDao = require("./daos/indexDao");
+
+//CONEXIÓN A MONGO:
+const dbConnect = require("./utils/connectMongoDB.js");
+if (process.env.MODO_PERSISTENCIA === "mongodb") {
+  dbConnect().then(() => console.log("Conectado a la db."));
+}

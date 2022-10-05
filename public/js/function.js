@@ -64,8 +64,9 @@ function addProduct() {
   document.getElementById("thumbnail").value = "";
   return false;
 }
+const buttonChat = document.getElementById("buttonChat");
 
-function addMessage() {
+buttonChat.addEventListener("click", (e) => {
   console.log("toy");
   let message = {
     author: {
@@ -80,12 +81,7 @@ function addMessage() {
     date: formatDate(),
   };
   socket.emit("new-message", message);
-
-  document.getElementById("message").value = "";
-  document.getElementById("message").focus();
-
-  return true;
-}
+});
 
 const formatDate = () => {
   let date = new Date();

@@ -3,6 +3,7 @@ import express from "express";
 import ApiProductosMock from "../api/productosApi.js";
 import { Contenedor } from "../managers/contenedor.js";
 const ApiProductosMoc = new ApiProductosMock("./files/productos.txt");
+import mensajesDao from "../daos/indexDao.js";
 //=========== ROUTER ===========//
 const router = express.Router();
 
@@ -25,11 +26,11 @@ router.get("/", async (req, res, next) => {
 
 router.get("/products", async (req, res, next) => {
   try {
-    const arrayProduct = await products.getAll();
+    const arrayProduct = await mensajesDao.getAll();
     if (arrayProduct.length === 0) {
       throw new Error("No hay products");
     }
-    res.render("datos", { arrayProduct });
+    res.render("partials/datos", { arrayProduct });
   } catch (err) {
     next(err);
   }
