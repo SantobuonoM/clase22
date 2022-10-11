@@ -14,7 +14,7 @@ import { Server as IOServer } from "socket.io";
 import ApiProductosMock from "./api/productosApi.js";
 const productMock = new ApiProductosMock("./files/productos.txt");
 import apiProducts from "./routes/products.js";
-import Contenedor  from "./managers/contenedor.cjs";
+import Contenedor from "./managers/contenedor.cjs";
 import { normalizar, print, denormalizar } from "./utils/normalizar.js";
 import { Chat } from "./managers/chat.js";
 import mensajesDao from "./daos/indexDao.cjs";
@@ -40,13 +40,13 @@ app.use(function (err, req, res, next) {
 });
 
 //=========== MOTOR DE PLANTILLAS ===========//
-app.set("views", path.join(__dirname, "views"));
+app.set("views", path.join(__dirname, "views/partials"));
 app.engine(
   "hbs",
   exphbs.engine({
-    defaultLayout: "index",
-    layoutsDir: path.resolve(__dirname, "./views/layouts"),
-    partialsDir: path.resolve(__dirname, "./views/partials"),
+    defaultLayout: "main",
+    layoutsDir: path.resolve(__dirname, "views/layouts"),
+    partialsDir: path.resolve(__dirname, "/src/views/partials"),
     extname: ".hbs",
   })
 );
@@ -120,6 +120,3 @@ io.on("connection", async (socket) => {
 });
 
 //=========== MONGO ===========//
-
-
-

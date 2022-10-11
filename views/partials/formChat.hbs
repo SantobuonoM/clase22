@@ -1,65 +1,43 @@
-<div class="container-fluid mt-3" id="chat">
-  
-  <h3>Centro de mensajes</h3>
-  <div id="messages"></div>
-  <div autocomplete="on">
-    <label for="email">Email</label>
-    <input
-      type="email"
-      id="email"
-      class="form-control my-2 mr-2"
-      placeholder="Ingresa tu email"
-      required
-    />
-    <label for="nombre">Nombre</label>
-    <input
-      type="text"
-      id="nombre"
-      class="form-control my-2 mr-2"
-      placeholder="Ingresa tu nombre"
-      required
-    />
-    <label for="apellido">Apellido</label>
-    <input
-      type="text"
-      id="apellido"
-      class="form-control my-2 mr-2"
-      placeholder="Ingresa tu apellido"
-      required
-    />
-    <label for="edad">Edad</label>
-    <input
-      type="number"
-      id="edad"
-      class="form-control my-2 mr-2"
-      placeholder="Ingresa tu edad"
-      required
-    />
-    <label for="alias">Alias</label>
-    <input
-      type="text"
-      id="alias"
-      class="form-control my-2 mr-2"
-      placeholder="Ingresa tu alias"
-      required
-    />
-    <label for="avatar">Avatar</label>
-    <input
-      type="url"
-      id="avatar"
-      class="form-control my-2 mr-2"
-      placeholder="Ingresa tu avatar"
-      required
-    />
-    <label for="message">Mensaje</label>
-    <input
-      type="text"
-      id="message"
-      class="form-control my-2 mr-2"
-      placeholder="Cuéntanos algo..."
-      required
-    />
-    <button class="btn btn-dark mt-3" id="buttonChat"> Enviar!</button>
+<div class="text-center container-fluid d-flex">
 
-  
+  {{! SECCIÓN DE LOS MENSAJES EN VIVO }}
+
+  <section
+    class="text-center container-lg d-flex flex-column align-items-center"
+  >
+
+    <h3 class="my-5 fw-bolder">Chat en vivo</h3>
+
+    <form>
+      <label for="email" class="form-label">Ingrese su email:</label>
+      <input type="email" class="form-control" id="email" />
+      <label for="name" class="form-label">Ingrese su nombre:</label>
+      <input type="text" class="form-control" id="name" />
+      <label for="lastname" class="form-label">Ingrese su apellido:</label>
+      <input type="text" class="form-control" id="lastname" />
+      <label for="age" class="form-label">Ingrese su edad:</label>
+      <input type="number" class="form-control" id="age" />
+      <label for="alias" class="form-label">Ingrese su alias:</label>
+      <input type="text" class="form-control" id="alias" />
+
+      <label for="avatar" class="form-label">Ingrese su avatar:</label>
+      <input type="text" class="form-control" id="avatar" />
+
+      <div class="form-floating">
+        <textarea
+          class="form-control"
+          placeholder="Deja aquí tu comentario"
+          id="comment"
+          style="height: 100px; resize:none"
+        ></textarea>
+        <label for="comment">Comentario:</label>
+      </div>
+      <button class="btn btn-dark mt-3" id="buttonChat"> Enviar</button>
+      <div class="fw-bolder text-info mt-2" id="porcentaje">
+      </div>
+    </form>
+    <article class="d-flex flex-column mt-5" id="msg">
+
+    </article>
+  </section>
 </div>

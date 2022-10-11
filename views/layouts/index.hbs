@@ -5,13 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Productos</title>
+   <link rel="stylesheet" href="">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
    <div class="container bg-light p-4">
-		{{{body}}}
+		{{>Navbar}}
+        {{{body}}}
 	</div> 
-    <script type="aplication/json" src="/socket.io/socket.io.js"></script>
-     <script type="aplication/json" src="/js/function.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"></script>
+
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script src="/js/function.js"></script>
 </body>
 </html
