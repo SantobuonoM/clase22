@@ -1,20 +1,21 @@
 //=========== MODULOS ===========//
+import express from "express";
+import apiProducts from "./routes/products.js";
+import Contenedor from "./managers/contenedor.cjs";
+import { Server as HttpServer } from "http";
+import { Server as ioServer } from "socket.io";
+
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-import express from "express";
 import fs from "fs";
 import exphbs from "express-handlebars";
 import path from "path";
-import { Server as HttpServer } from "http";
-import { Server as IOServer } from "socket.io";
 
 import ApiProductosMock from "./api/productosApi.js";
 const productMock = new ApiProductosMock("./files/productos.txt");
-import apiProducts from "./routes/products.js";
-import Contenedor from "./managers/contenedor.cjs";
 import { normalizar, print, denormalizar } from "./utils/normalizar.js";
 import { Chat } from "./managers/chat.js";
 import mensajesDao from "./daos/indexDao.cjs";
@@ -22,17 +23,13 @@ import mensajesDao from "./daos/indexDao.cjs";
 //=========== ROUTERS ===========//
 const app = express();
 const httpServer = new HttpServer(app);
-const io = new IOServer(httpServer);
-
+const io = new ioServer(httpServer);
 //=========== MIDDLEWARES ===========//
-app.use(express.json());
+app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
-app.use("/", express.static(path.resolve(__dirname, "public")));
+app.use(express.json());
+
 app.use("/", apiProducts);
-app.use((req, res, next) => {
-  console.log(`Product Middleware, Time: ${Date.now()}`);
-  next();
-});
 
 app.use(function (err, req, res, next) {
   console.error(err);
@@ -40,30 +37,20 @@ app.use(function (err, req, res, next) {
 });
 
 //=========== MOTOR DE PLANTILLAS ===========//
-app.set("views", path.join(__dirname, "views/partials"));
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", ".hbs");
 app.engine(
   "hbs",
   exphbs.engine({
-    defaultLayout: "main",
+    defaultLayout: "index",
     layoutsDir: path.resolve(__dirname, "views/layouts"),
-    partialsDir: path.resolve(__dirname, "/src/views/partials"),
+    partialsDir: path.resolve(__dirname, "views/partials"),
     extname: ".hbs",
   })
 );
-app.set("view engine", ".hbs");
-
-// app.engine(
-//   "hbs",
-//   engine({
-//     defaultLayout: "main",
-//     layoutsDir: path.join(app.get("views"), "layouts"),
-//   })
-// );
-// app.set("view engine", "hbs");
-// app.set("views", "./views");
 
 //=========== VARIABLES ===========//
-let chat = new Contenedor("./files/chat.txt");
+let chat = new Chat("./files/chat.txt");
 
 let products = new Contenedor("./files/productos.txt");
 

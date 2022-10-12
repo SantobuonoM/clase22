@@ -77,7 +77,7 @@ router.post("/products", async (req, res, next) => {
       );
     }
     console.log(req.body);
-    await productosDao.save(req);
+    await productosDao.save(req.body);
     res.redirect("/products");
   } catch (err) {
     next(err);

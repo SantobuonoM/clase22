@@ -1,94 +1,77 @@
-import { normalize, schema, denormalize } from "normalizr";
-const socket = io();
+import socket from "socket.io"
+/*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+SECCIÓN MENSAJES
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
+//Desnormalizador:
 
-const author = new schema.Entity("author");
-const text = new schema.Entity("text", {
-  author: author,
-});
+// Esquema del author:
+const schemaAuthor = new normalizr.schema.Entity(
+  "author",
+  {},
+  { idAttribute: "email" }
+);
+//Esquema del mensaje:
+const schemaMensaje = new normalizr.schema.Entity(
+  "post",
+  {
+    author: schemaAuthor,
+  },
+  { idAttribute: "id" }
+);
+//Esquema de los mensajes:
+const schemaMensajes = new normalizr.schema.Entity(
+  "posts",
+  {
+    mensajes: [schemaMensaje],
+  },
+  { idAttribute: "id" }
+);
 
-const denormalizar = (obj) => {
-  return denormalize(obj.result, text, obj.entities);
-};
-
-socket.on("products", (data) => {
-  render(data);
-});
-
-socket.on("messages", (data) => {
-  renderMessages(data);
-});
-
-function render(data) {
-  let html = data
-    .map((elem, index) => {
-      return `<tr>
-      <td>${elem.title}</td>
-      <td>${elem.price}</td>
-      <td><img src="${elem.thumbnail}" alt="Imagen del producto" style="width: 4rem;"></td>
-      </tr>`;
-    })
-    .join(" ");
-  document.getElementById("tbproducts").innerHTML;
-}
-
-function renderMessages(data) {
-  const denormalizedMessages = denormalizar(data);
-  let html = denormalizedMessages.messages
-    .map((elem, index) => {
-      return `<span>
-        <span style="color: blue; font-weight: bold;">${elem.author.nombre}</span>
-        <span style="color: blue; font-weight: bold;">${elem.author.apellido}</span>
-        <span style="color: blue; font-weight: bold;">(${elem.author.id}),</span>
-        <span style="color: blue; font-weight: bold;">(${elem.author.alias})</span>
-        <span style="color: blue; font-weight: bold;"><img src="${elem.author.avatar}" alt="Avatar del usuario"></span>
-        <span style="color: brown;">[${elem.date}]:</span>
-        <span style="color: green; font-style: italic;">${elem.text}</span>
-        <span>
-        `;
-    })
-    .join("<br>");
-  document.querySelector("messages").innerHTML = html;
-}
-
-function addProduct() {
-  alert("llegue");
-  let producto = {
-    title: document.getElementById("title").value,
-    price: document.getElementById("price").value,
-    thumbnail: document.getElementById("thumbnail").value,
-  };
-  debugger;
-  socket.emit("new-product", producto);
-  document.getElementById("title").value = "";
-  document.getElementById("price").value = "";
-  document.getElementById("thumbnail").value = "";
-  return false;
-}
 const buttonChat = document.getElementById("buttonChat");
 
+socket.on("messages", (data) => {
+  const denormalizedData = normalizr.denormalize(
+    data.result,
+    schemaMensajes,
+    data.entities
+  );
+  const porcN = JSON.stringify(data).length;
+  const porcDN = JSON.stringify(denormalizedData).length;
+  let porcT = (100 * porcDN) / porcN;
+  const htmlPorc = `<h4>Compresión: ${porcT.toFixed(1)}%</h4>`;
+  const porcentajeDOM = document.getElementById("porcentaje");
+  porcentajeDOM.innerHTML = htmlPorc;
+
+  let msgHtml = "";
+  msgHtml = denormalizedData.mensajes.map((item) => {
+    return `<span>
+    <div class="d-flex flex-column" style="width:500px">
+     <div class="d-flex justify-content-between w-100 bg-dark">
+     <img src="${item.author.avatar}" style="width:50px;height:50px">
+      <p class="text-light fw-bolder" >${item.author.email}</p>
+    </div>
+      <p class="text-success"><em>${item.text}</em></p>
+    </span>
+    </div>
+    <hr>
+    `;
+  });
+  document.getElementById("msg").innerHTML = msgHtml;
+});
+
 buttonChat.addEventListener("click", (e) => {
-  console.log("toy");
-  let message = {
+  const msg = {
     author: {
-      id: document.getElementById("email").value,
-      nombre: document.getElementById("nombre").value,
-      apellido: document.getElementById("apellido").value,
-      edad: document.getElementById("edad").value,
+      email: document.getElementById("email").value,
+      nombre: document.getElementById("name").value,
+      apellido: document.getElementById("lastname").value,
+      edad: document.getElementById("age").value,
       alias: document.getElementById("alias").value,
       avatar: document.getElementById("avatar").value,
     },
-    text: document.getElementById("message").value,
-    date: formatDate(),
+    text: document.getElementById("comment").value,
   };
-  socket.emit("new-message", message);
+  socket.emit("messages", msg);
 });
-
-const formatDate = () => {
-  let date = new Date();
-  let formatted_date = `${date.getDate()}/${("0" + (date.getMonth() + 1)).slice(
-    -2
-  )}/${date.getFullYear()} ${date.getHours()}:${
-    date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
-  }:${date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds()}`;
-  return formatted_date;
-};

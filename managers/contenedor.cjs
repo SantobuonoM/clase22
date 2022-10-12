@@ -7,7 +7,7 @@ class Contenedor {
 
   async getAll() {
     this.items = this.readData();
-    return [...this.items];
+    return this.items;
   }
 
   getById(id) {

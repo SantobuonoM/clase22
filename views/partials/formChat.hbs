@@ -1,3 +1,9 @@
+    
+<head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+
+</head>
 <div class="text-center container-fluid d-flex">
 
   {{! SECCIÓN DE LOS MENSAJES EN VIVO }}
@@ -8,34 +14,16 @@
 
     <h3 class="my-5 fw-bolder">Chat en vivo</h3>
 
-    <form>
-      <label for="email" class="form-label">Ingrese su email:</label>
-      <input type="email" class="form-control" id="email" />
-      <label for="name" class="form-label">Ingrese su nombre:</label>
-      <input type="text" class="form-control" id="name" />
-      <label for="lastname" class="form-label">Ingrese su apellido:</label>
-      <input type="text" class="form-control" id="lastname" />
-      <label for="age" class="form-label">Ingrese su edad:</label>
-      <input type="number" class="form-control" id="age" />
-      <label for="alias" class="form-label">Ingrese su alias:</label>
-      <input type="text" class="form-control" id="alias" />
-
-      <label for="avatar" class="form-label">Ingrese su avatar:</label>
-      <input type="text" class="form-control" id="avatar" />
-
-      <div class="form-floating">
-        <textarea
-          class="form-control"
-          placeholder="Deja aquí tu comentario"
-          id="comment"
-          style="height: 100px; resize:none"
-        ></textarea>
-        <label for="comment">Comentario:</label>
-      </div>
-      <button class="btn btn-dark mt-3" id="buttonChat"> Enviar</button>
-      <div class="fw-bolder text-info mt-2" id="porcentaje">
-      </div>
-    </form>
+    <form onsubmit="return saveMessage()" class="my-4">
+                <input type="text" id="email" class="form-control w-75 my-2" placeholder="Indique su email"/>
+                <input type="text" id="nombre" class="form-control w-75 my-2" placeholder="Indique su nombre"/>
+                <input type="text" id="apellido" class="form-control w-75 my-2" placeholder="Indique su apellido"/>
+                <input type="number" id="edad" class="form-control w-75 my-2" placeholder="Indique su edad"/>
+                <input type="text" id="alias" class="form-control w-75 my-2" placeholder="Indique su alias"/>
+                <input type="url" id="avatar" class="form-control w-75 my-2" placeholder="Indique su avatar"/>
+                <input type="text" id="text" class="form-control w-75 my-2" placeholder="Escriba su mensaje"/>
+                <button type="submit" class="btn btn-dark">Enviar mensaje</button>
+            </form>
     <article class="d-flex flex-column mt-5" id="msg">
 
     </article>
