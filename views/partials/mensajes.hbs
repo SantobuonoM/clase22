@@ -8,15 +8,10 @@
 <div>
     {{#each messages }}
         <p class"my-2 messages__container">
-           {{!--  <span class="text-info email">{{ author.id }} </span> --}}
-{{!--             <span class="text-info email">{{ author.nombre }} </span>
-            <span class="text-info email">{{ author.apellido }} </span> --}}
-            {{!-- <span class="text-info email">{{ author.edad }} </span> --}}
+          
             <img src={{author.avatar}} class="img-fluid img__producto" alt="">
             <span class="text-info email">{{ author.alias }} </span>
-{{!--             <span class="date"> 
-                [{{ fecha }}]    
-            </span> --}}
+
             <span class="text-success">: {{text}} </span>
         </p>
     {{/each}}

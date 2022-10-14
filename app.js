@@ -113,7 +113,7 @@ io.on("connection", async (socket) => {
   let pesoComprimido = JSON.stringify(normalizedMessages).length;
   const compresion = ((pesoComprimido * 100) / pesoOriginal).toFixed(2);
   console.log(`El porcentaje de compresión ha sido del: ${compresion} %`);
-  socket.emit("mensaje-servidor", messages, compresion);
+  socket.emit("messages-servidor", messages, compresion);
 
   socket.on("new-messages", async (msg) => {
     console.log(msg);

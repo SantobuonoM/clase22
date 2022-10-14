@@ -18,17 +18,13 @@ socket.on("messages", (data) => {
 
   let msgHtml = "";
   msgHtml = denormalizedData.mensajes.map((item) => {
-    return `<span>
-    <div class="d-flex flex-column" style="width:500px">
-     <div class="d-flex justify-content-between w-100 bg-dark">
-     <img src="${item.author.avatar}" style="width:50px;height:50px">
-      <p class="text-light fw-bolder" >${item.author.email}</p>
-    </div>
-      <p class="text-success"><em>${item.text}</em></p>
-    </span>
-    </div>
-    <hr>
-    `;
+    return `
+     <p class"my-2 messages__container">
+            <img src="${item.author.avatar}"  class="img-fluid img__producto" alt="">
+            <span class="text-info email">${item.author.email}</span>
+            <span class="text-success">${item.text}</span>
+      </p>
+      `;
   });
   document.getElementById("msg").innerHTML = msgHtml;
 });
@@ -47,18 +43,33 @@ buttonChat.addEventListener("click", (e) => {
   console.log(msg);
   socket.emit("new-messages", msg);
 });
+
 const insertCompresionHTML = (compresion) => {
-  let div = document.getElementById("compresion");
+  let div = document.getElementById("porcentaje");
   const resultado = `Porcentaje de compresión ${compresion}%`;
   div.innerHTML = resultado;
 };
 const renderMensajes = (messages) => {
-  let listadoMensajes = document.getElementById("messages");
+  // let listadoMensajes = document.querySelector("ul");
+  // let item = document.createElement("li");
+  // item.textContent = messages;
+  // listadoMensajes.appendChild(item);
+  let msgHtml = "";
+  msgHtml = messages.map((item) => {
+    return `
+    
 
-  listadoMensajes.innerHTML = html;
+    <p class"my-2 messages__container">
+            <img src="${item.author.avatar}" width="50" height="50" alt=""  class="img-fluid" >
+            <span style="color: blue; font-weight: bold;">${item.author.alias}</span>
+            <span class="text-success; font-weight: bold;">:   ${item.text}</span>
+      </p>
+    `;
+  });
+  document.getElementById("msg").innerHTML = msgHtml;
 };
 
-socket.on("mensaje-servidor", (productos, messages, compresion, products) => {
+socket.on("messages-servidor", (messages, compresion) => {
   renderMensajes(messages);
   insertCompresionHTML(compresion);
 });
