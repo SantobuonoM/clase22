@@ -1,5 +1,7 @@
 import { normalize, schema, denormalize } from "normalizr";
+
 import util from "util";
+
 
 const author = new schema.Entity("author");
 const text = new schema.Entity("text", {
@@ -10,21 +12,15 @@ export const print = (obj) => {
   console.log(util.inspect(obj, false, 12, true));
 };
 
-export function normalizar(mensajes) {
-  const normalizar = mensajes.map((message) => ({
+export function normalizar(messages) {
+  const normalizar = messages.map((message) => ({
     author: message.author,
     date: message.date,
     text: message.text,
-    id: message.id,
+    id: message.email,
   }));
 
-  const normalizados = normalize(
-    {
-      id: "mensajes",
-      messages: normalizar,
-    },
-    text
-  );
+  const normalizados = normalize({id: "messages", messages: normalizar, },text);
 
   return normalizados;
 }

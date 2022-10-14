@@ -7,7 +7,7 @@ const __dirname = dirname(__filename);
 
 export class Chat {
   constructor(fileName) {
-    this.pathToChat = resolve(__dirname, fileName);
+    this.pathToChat = resolve(fileName);
     this.messages = [];
   }
 

@@ -2,7 +2,7 @@
   "type": "module",
   "name": "clase22",
   "engines": {
-    "node": "16" 
+    "node": "16"
   },
   "version": "1.0.0",
   "description": "",

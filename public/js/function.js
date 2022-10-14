@@ -1,33 +1,5 @@
-import socket from "socket.io"
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-SECCIÓN MENSAJES
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-//Desnormalizador:
-
-// Esquema del author:
-const schemaAuthor = new normalizr.schema.Entity(
-  "author",
-  {},
-  { idAttribute: "email" }
-);
-//Esquema del mensaje:
-const schemaMensaje = new normalizr.schema.Entity(
-  "post",
-  {
-    author: schemaAuthor,
-  },
-  { idAttribute: "id" }
-);
-//Esquema de los mensajes:
-const schemaMensajes = new normalizr.schema.Entity(
-  "posts",
-  {
-    mensajes: [schemaMensaje],
-  },
-  { idAttribute: "id" }
-);
+const { normalize, schema, denormalize } = normalizr;
+const socket = io();
 
 const buttonChat = document.getElementById("buttonChat");
 
@@ -60,7 +32,6 @@ socket.on("messages", (data) => {
   });
   document.getElementById("msg").innerHTML = msgHtml;
 });
-
 buttonChat.addEventListener("click", (e) => {
   const msg = {
     author: {
@@ -73,5 +44,21 @@ buttonChat.addEventListener("click", (e) => {
     },
     text: document.getElementById("comment").value,
   };
-  socket.emit("messages", msg);
+  console.log(msg);
+  socket.emit("new-messages", msg);
+});
+const insertCompresionHTML = (compresion) => {
+  let div = document.getElementById("compresion");
+  const resultado = `Porcentaje de compresión ${compresion}%`;
+  div.innerHTML = resultado;
+};
+const renderMensajes = (messages) => {
+  let listadoMensajes = document.getElementById("messages");
+
+  listadoMensajes.innerHTML = html;
+};
+
+socket.on("mensaje-servidor", (productos, messages, compresion, products) => {
+  renderMensajes(messages);
+  insertCompresionHTML(compresion);
 });
