@@ -97,15 +97,17 @@ io.on("connection", async (socket) => {
   let pesoOriginal = JSON.stringify(messages).length;
   console.log(`El tamaño original del archivo era de: `, pesoOriginal);
 
-  const idSchema = new schema.Entity("id");
   const authorSchema = new schema.Entity("author");
-  const textSchema = new schema.Entity("text");
-  const mensajeSchema = new schema.Entity("messages", {
-    id: idSchema,
-    author: authorSchema,
-    text: textSchema,
-  });
-  const normalizedMessages = normalize(messages, [mensajeSchema]);
+
+  const msgSchema = new schema.Entity("message", { author: authorSchema });
+
+  const finalSchema = [msgSchema];
+  // const mensajeSchema = new schema.Entity("messages", {
+  //   id: idSchema,
+  //   author: authorSchema,
+  //   text: textSchema,
+  // });
+  const normalizedMessages = normalize(messages, [finalSchema]);
   console.log(
     `Luego el tamaño del archivo quedó en: `,
     JSON.stringify(normalizedMessages).length
