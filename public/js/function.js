@@ -69,7 +69,7 @@ const renderMensajes = (messages) => {
   document.getElementById("msg").innerHTML = msgHtml;
 };
 
-socket.on("messages-servidor", (messages, compresion) => {
-  renderMensajes(messages);
+socket.on("messages-servidor", (normalizedMessages, compresion) => {
+  renderMensajes(normalizedMessages);
   insertCompresionHTML(compresion);
 });

@@ -123,7 +123,7 @@ io.on("connection", async (socket) => {
     await chat.saveMessages(msg);
     const messages = await chat.getMessages();
 
-    io.sockets.emit("messages-servidor", messages);
+    io.sockets.emit("messages-servidor", normalizedMessages);
   });
 });
 
