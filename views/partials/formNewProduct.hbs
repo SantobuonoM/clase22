@@ -1,8 +1,8 @@
 <html>
-
+   
   <header>
 
-    <h1 style="color:blue;">Productos</h1>
+    <h1 style="color:blue;" class="my-5 fw-bolder">Productos</h1>
   </header>
   <body>
 
@@ -11,7 +11,7 @@
         <div class="jumbotron">
           <h2 style="color:blue;">Nuevo producto</h2>
           <br />
-          <form action="http://localhost:8080/products" method="post">
+          <form action="http://localhost:8081/products" method="post">
             <div class="form-group">
               <label for="title"><b>Nombre</b></label>
               <input
@@ -55,27 +55,8 @@
         </div>
       </div>
     </main>
-    <aside>
-      <div id="products">
-        <h3>Lista de productos</h3>
-        <div class="table-responsive">
-          <table class="table table-dark" id="tableOfProducts">
-            <thead><tr style="color: yellow;">
-                <th>Nombre</th>
-                <th>Precio</th>
-                <th>Thumbnail</th>
-              </tr></thead>
-            <tbody id="tbproducts"></tbody>
-          </table>
-        </div>
-      </div>
-      <hr />
-
-    </aside>
+    <hr />
 
   </body>
-  <script
-    src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"
-  ></script>
-
+  
 </html>

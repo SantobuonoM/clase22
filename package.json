@@ -8,21 +8,33 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
+    "@handlebars/allow-prototype-access": "^1.0.5",
+    "bcrypt": "^5.0.1",
+    "connect-mongo": "^4.4.1",
+    "cookie-parser": "^1.4.5",
+    "esm": "^3.2.25",
     "express": "^4.18.1",
     "express-handlebars": "^6.0.6",
     "express-hbs": "^2.4.0",
+    "express-session": "^1.17.1",
     "faker": "^6.6.6",
     "firebase-admin": "^11.0.1",
     "jquery": "^3.6.1",
+    "log4js": "^6.7.0",
     "mongoose": "^6.6.5",
     "nodemon": "^2.0.20",
     "normalizr": "^3.6.2",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
     "react-scripts": "^3.4.1",
-    "socket.io": "^4.5.2"
+    "rxjs": "^6.6.6",
+    "socket.io": "^4.5.2",
+    "typescript": "^4.2.3"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.5.0",
-    "eslint": "^8.24.0"
+    "eslint": "^8.24.0",
+    "handlebars": "^4.5.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

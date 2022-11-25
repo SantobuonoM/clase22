@@ -4,6 +4,8 @@ import ApiProductosMock from "../api/productosApi.js";
 import Contenedor from "../managers/contenedor.cjs";
 const ApiProductosMoc = new ApiProductosMock("./files/productos.txt");
 import { mensajesDao, productosDao } from "../daos/indexDao.cjs";
+import { fork } from "child_process";
+
 //=========== ROUTER ===========//
 const router = express.Router();
 
@@ -20,9 +22,7 @@ let products = new Contenedor("./files/productos.txt");
 //new mensajesDao("./files/productos.txt");
 //=========== RUTAS ===========//
 
-router.get("/", async (req, res, next) => {
-  res.render("main");
-});
+
 
 router.get("/products", async (req, res, next) => {
   try {
@@ -30,7 +30,7 @@ router.get("/products", async (req, res, next) => {
     if (arrayProduct.length === 0) {
       throw new Error("No hay products");
     }
-    res.render("partials/datos", { arrayProduct });
+    res.render("datos", { arrayProduct });
   } catch (err) {
     next(err);
   }
@@ -42,7 +42,7 @@ router.get("/products-test", async (req, res, next) => {
     if (arrayProduct.length === 0) {
       throw new Error("No hay productos");
     }
-    res.render("partials/datos", { arrayProduct });
+    res.render("datos", { arrayProduct });
   } catch (err) {
     next(err);
   }
@@ -61,6 +61,32 @@ router.get("/products/:id", async (req, res, next) => {
     next(err);
   }
 });
+/*---------------- RUTAS NUMEROS RANDOM E INFO -------------- */
+
+router.get("/api/randoms/", (req, res) => {
+  let cantDatos = parseInt(req.query.cant);
+  const forked = fork("./utils/randomNumbers.js");
+
+  forked.on("message", (numbers) => {
+    res.send(numbers);
+    console.log(numbers);
+  });
+  forked.send(cantDatos);
+  console.log("random succesful");
+  console.log(cantDatos);
+});
+
+router.get("/info", (req, res) => {
+  const info = {
+    sistema: process.platform,
+    nodeVersion: process.version,
+    memory: process.memoryUsage().rss,
+    path: process.cwd(),
+    processId: process.pid,
+  };
+
+  res.send(info);
+});
 
 router.post("/products", async (req, res, next) => {
   try {
@@ -77,10 +103,10 @@ router.post("/products", async (req, res, next) => {
       );
     }
     console.log(req.body);
-    await productosDao.save(req.body);
+    await productosDao.save(req);
     res.redirect("/products");
   } catch (err) {
-    next(err);
+      console.log(err);
   }
 });
 

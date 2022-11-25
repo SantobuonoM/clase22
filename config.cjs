@@ -1,12 +1,11 @@
-const dotenv = require("dotenv");
+const dotenv =require ("dotenv");
 dotenv.config();
 
-module.exports= {
-  fileSystem:{
-    path :"./files/productos.txt"
+module.exports = {
+  fileSystem: {
+    path: "./files/productos.txt",
   },
-  mongodb:
-   {
+  mongodb: {
     cnxStr:
       "mongodb+srv://yopopoy19:42501719@cluster0.b03da.mongodb.net/DB?retryWrites=true&w=majority",
     options: {

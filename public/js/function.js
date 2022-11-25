@@ -1,5 +1,5 @@
-const { normalize, schema, denormalize } = normalizr;
 const socket = io();
+const { normalize, schema, denormalize } = normalizr;
 
 const buttonChat = document.getElementById("buttonChat");
 

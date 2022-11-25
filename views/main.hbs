@@ -1,5 +1,17 @@
 <div class="jumbotron">
-    
+<div class="container mt-3">
+  <h1 class="alert alert-success">
+    Bienvenido {{username}}
+    <button
+      class="btn btn-warning float-right mt-2"
+      onclick="location.href='/logout'"
+    >
+      Desloguear
+    </button>
+  </h1>
+</div>
+
+
 {{>formNewProduct}}
 
 {{>formChat}}
